@@ -1,6 +1,6 @@
 {
   "name": "@neabyte/fast-router",
-  "description": "An optimized, versatile router with radix tree structure for Deno/Node.js",
+  "description": "A fast, versatile router with radix tree structure for JavaScript",
   "version": "0.1.0",
   "type": "module",
   "license": "MIT",
