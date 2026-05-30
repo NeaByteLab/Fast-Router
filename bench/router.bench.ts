@@ -10,6 +10,9 @@ fastRouter.add('GET', '/users/:id/posts/:postId', { handler: 'getPost', method: 
 fastRouter.add('GET', '/posts/:category/*', { handler: 'posts', method: 'GET' })
 fastRouter.add('GET', '/files/**', { handler: 'files', method: 'GET' })
 fastRouter.add('GET', '/api/:version/*', { handler: 'api', method: 'GET' })
+fastRouter.add('GET', '/items/:id(\\d+)', { handler: 'getItem', method: 'GET' })
+fastRouter.add('POST', '/users', { handler: 'createUser', method: 'POST' })
+fastRouter.add('', '/health', { handler: 'health', method: 'ANY' })
 
 Deno.bench({
   name: 'Fast-Router: Static route lookup',
@@ -29,6 +32,41 @@ Deno.bench({
   name: 'Fast-Router: Nested parameter route',
   fn: () => {
     fastRouter.find('GET', '/users/123/posts/456')
+  }
+})
+
+Deno.bench({
+  name: 'Fast-Router: Regex parameter route',
+  fn: () => {
+    fastRouter.find('GET', '/items/42')
+  }
+})
+
+Deno.bench({
+  name: 'Fast-Router: Single wildcard route',
+  fn: () => {
+    fastRouter.find('GET', '/posts/tech/latest')
+  }
+})
+
+Deno.bench({
+  name: 'Fast-Router: Catch-all globstar route',
+  fn: () => {
+    fastRouter.find('GET', '/files/docs/2024/report.pdf')
+  }
+})
+
+Deno.bench({
+  name: 'Fast-Router: Any-method matching',
+  fn: () => {
+    fastRouter.find('DELETE', '/health')
+  }
+})
+
+Deno.bench({
+  name: 'Fast-Router: Lookup without params',
+  fn: () => {
+    fastRouter.find('GET', '/users/123', { params: false })
   }
 })
 
