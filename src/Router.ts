@@ -101,15 +101,14 @@ export class FastRouter<T = unknown> {
     path: string,
     opts?: { params?: boolean }
   ): RouterMatchedRoute<T> | RouterMethodData<T> | undefined {
+    method = method.toUpperCase()
     const staticNode = this.context.static[path]
     if (staticNode && staticNode.methods) {
-      const upperMethod = method.toUpperCase()
-      const exactMatch = staticNode.methods[upperMethod] || staticNode.methods['']
+      const exactMatch = staticNode.methods[method] || staticNode.methods['']
       if (exactMatch && exactMatch[0]) {
         return exactMatch[0]
       }
     }
-    method = method.toUpperCase()
     if (path.endsWith('/') && path !== '/') {
       path = path.slice(0, -1)
     }
